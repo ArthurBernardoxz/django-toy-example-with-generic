@@ -13,12 +13,13 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from xml.etree.ElementInclude import include
 from django.contrib import admin
 from django.urls import path
 from toy.views.get_post import *
 from django.conf import settings
 from django.conf.urls.static import static
-
+from toy.views.with_generic import Atualizar_Pessoa, Pag_principal
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',ListPerson.as_view(),name="home"),
@@ -29,4 +30,7 @@ urlpatterns = [
 
     path('eye_color/<int:person_id>/', EyeColorUpdate.as_view(),name="cor_do_olho"),
     path('salvar_olho/<str:redirect_to>/', EyeColorUpdate.as_view(),name="salvar_olho"),
+    
+    path("lista-pessoas",Pag_principal.as_view(template_name="list_person.html"), name="listar_pessoas"),
+    path("editar/<int:person_id>/",Atualizar_Pessoa.as_view(template_name="person_update.html"), name="atualizar_pessoa"),
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
